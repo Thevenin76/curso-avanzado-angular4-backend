@@ -6,6 +6,13 @@ function pruebas (req, res){
     });
 }
 
+function saveUser(req, res){
+    res.status(200).send({
+        message: 'Metodo de Registro'
+    });
+}
+
 module.exports = {
-    pruebas
+    pruebas,
+    saveUser
 }

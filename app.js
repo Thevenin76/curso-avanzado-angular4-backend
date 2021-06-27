@@ -16,18 +16,11 @@ app.use(express.json());
 // Configurar cabeceras y cors
 
 // Rutas 
-//app.use('/api', user_routes)
+app.use('/api', user_routes)
 
 /*
 app.get ('/probando', (req, res)=>{
     res.status(200).send({message: 'Este es el método probando'});
 })*/
-
-app.use('/api/', function pruebas (req, res){
-    res.status(200).send({
-        message: 'Probando el controlador de usuarios y la acción pruebas'
-    });
-});
-
 
 module.exports = app;
