@@ -30,25 +30,41 @@ function saveUser(req, res){
         user.role = 'ROLE_USER';
         user.image = null;
 
-        // Cifrar la contraseña
-        bcrypt.hash(params.password, null, null, function(error, hash){
-            user.password = hash;
 
-            // Guardo el usurario en la bbdd
-            user.save((err, userStored) => {
+        User.findOne({email: user.email.toLowerCase()}, (err, issetUser) => {
 
-                if (err){
-                    res.status(500).send({message: 'Error al guardar del usuario'});
-                } else {
-                    if (!userStored){
-                        res.status(500).send({message: 'No se ha registrado el usuario'});
-                    } else {
-                        res.status(200).send({user: userStored});
-                    }
+            if (err) {
+                res.status(500).send({message: 'Error al comprobar el usuario'});
+            }
+            else {
+                if (!issetUser){
+                    // Cifrar la contraseña
+                    bcrypt.hash(params.password, null, null, function(error, hash){
+                        user.password = hash;
+
+                        // Guardo el usurario en la bbdd
+                        user.save((err, userStored) => {
+
+                            if (err){
+                                res.status(500).send({message: 'Error al guardar del usuario'});
+                            } else {
+                                if (!userStored){
+                                    res.status(500).send({message: 'No se ha registrado el usuario'});
+                                } else {
+                                    res.status(200).send({user: userStored});
+                                }
+                            }
+                        })
+                    });
                 }
-
-            })
-        });
+                else {
+                    res.status(200).send({
+                        message: 'El usuario no puede registrarse. Email: '+user.email+' ya existe.'
+                    });
+                }
+            }
+        });    
+        
     } else {
         res.status(200).send({
             message: 'Introduce los datos de usuario correctamente'
