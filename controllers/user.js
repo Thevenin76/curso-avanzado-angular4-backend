@@ -75,7 +75,38 @@ function saveUser(req, res){
 
 }
 
+function login (req, res){
+
+    var params = req.body;
+
+    var email = params.email;
+    var password = params.password;
+
+    User.findOne({email: email.toLowerCase()}, (err, user) => {
+        if (err) {
+           res.status(500).send({message: 'Error al comprobar el usuario'});
+        }
+        else {
+            if (user){ 
+                bcrypt.compare(password, user.password, (err, check)=>{
+                    if (check){
+                        res.status(200).send({user})
+                    }
+                    else {
+                        res.status(400).send({message: 'El inicio de sesión no es correcto. Compruebe usuario/contraseña.'})
+                    }
+
+                });
+            }
+            else {            
+                    res.status(404).send({message: 'el usuario o ha podido iniciar sesión.'});
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
-    saveUser
+    saveUser,
+    login
 }
