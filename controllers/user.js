@@ -153,7 +153,26 @@ function updateUser(req, res){
 }
 
 function uploadImage(req, res){
-    res.status(200).send({message: "Upload Image"});
+    //res.status(200).send({message: "Upload Image"});
+    var userId = req.params.id;
+    var file_name = 'No subido...';
+
+    if (req.files){
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        res.status(200).send({
+            file_path: file_path,
+            file_split: file_split,
+            file_name: file_name
+        });
+    }
+    else {
+        res.status(200).send({
+            message: 'No se han subido ficheros'
+        });
+    }
 }
 
 module.exports = {
