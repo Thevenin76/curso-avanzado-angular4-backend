@@ -152,9 +152,14 @@ function updateUser(req, res){
 
 }
 
+function uploadImage(req, res){
+    res.status(200).send({message: "Upload Image"});
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
-    updateUser
+    updateUser,
+    uploadImage
 }
