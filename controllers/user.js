@@ -162,6 +162,11 @@ function uploadImage(req, res){
         var file_split = file_path.split('\\');
         var file_name = file_split[2];
 
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        
+
         res.status(200).send({
             file_path: file_path,
             file_split: file_split,
